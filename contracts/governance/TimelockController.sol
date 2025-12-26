@@ -4,8 +4,8 @@
 pragma solidity ^0.8.20;
 
 import {AccessControl} from "../access/AccessControl.sol";
-import {ERC721Holder} from "../token/ERC721/utils/ERC721Holder.sol";
-import {ERC1155Holder} from "../token/ERC1155/utils/ERC1155Holder.sol";
+import {CBC721Holder} from "../token/CBC721/utils/CBC721Holder.sol";
+import {CBC1155Holder} from "../token/CBC1155/utils/CBC1155Holder.sol";
 import {Address} from "../utils/Address.sol";
 
 /**
@@ -21,7 +21,7 @@ import {Address} from "../utils/Address.sol";
  * to position this {TimelockController} as the owner of a smart contract, with
  * a multisig or a DAO as the sole proposer.
  */
-contract TimelockController is AccessControl, ERC721Holder, ERC1155Holder {
+contract TimelockController is AccessControl, CBC721Holder, CBC1155Holder {
     bytes32 public constant PROPOSER_ROLE = keccak256("PROPOSER_ROLE");
     bytes32 public constant EXECUTOR_ROLE = keccak256("EXECUTOR_ROLE");
     bytes32 public constant CANCELLER_ROLE = keccak256("CANCELLER_ROLE");
@@ -157,7 +157,7 @@ contract TimelockController is AccessControl, ERC721Holder, ERC1155Holder {
     /// @inheritdoc AccessControl
     function supportsInterface(
         bytes4 interfaceId
-    ) public view virtual override(AccessControl, ERC1155Holder) returns (bool) {
+    ) public view virtual override(AccessControl, CBC1155Holder) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 

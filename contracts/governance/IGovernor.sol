@@ -3,8 +3,8 @@
 
 pragma solidity >=0.8.4;
 
-import {IERC165} from "../interfaces/IERC165.sol";
-import {IERC6372} from "../interfaces/IERC6372.sol";
+import {ICBC165} from "../interfaces/ICBC165.sol";
+import {IERC6372} from "../interfaces/ICBC6372.sol";
 
 /**
  * @dev Interface of the {Governor} core.
@@ -12,7 +12,7 @@ import {IERC6372} from "../interfaces/IERC6372.sol";
  * NOTE: Event parameters lack the `indexed` keyword for compatibility with GovernorBravo events.
  * Making event parameters `indexed` affects how events are decoded, potentially breaking existing indexers.
  */
-interface IGovernor is IERC165, IERC6372 {
+interface IGovernor is ICBC165, IERC6372 {
     enum ProposalState {
         Pending,
         Active,
@@ -304,7 +304,7 @@ interface IGovernor is IERC165, IERC6372 {
      * @dev Minimum number of cast voted required for a proposal to be successful.
      *
      * NOTE: The `timepoint` parameter corresponds to the snapshot used for counting vote. This allows to scale the
-     * quorum depending on values such as the totalSupply of a token at this timepoint (see {ERC20Votes}).
+     * quorum depending on values such as the totalSupply of a token at this timepoint (see {CBC20Votes}).
      */
     function quorum(uint256 timepoint) external view returns (uint256);
 
@@ -313,7 +313,7 @@ interface IGovernor is IERC165, IERC6372 {
      * @dev Voting power of an `account` at a specific `timepoint`.
      *
      * Note: this can be implemented in a number of ways, for example by reading the delegated balance from one (or
-     * multiple), {ERC20Votes} tokens.
+     * multiple), {CBC20Votes} tokens.
      */
     function getVotes(address account, uint256 timepoint) external view returns (uint256);
 

@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.22;
 
-import {IERC1822Proxiable} from "../../interfaces/draft-IERC1822.sol";
+import {IERC1822Proxiable} from "../../interfaces/draft-ICBC1822.sol";
 import {ERC1967Utils} from "../ERC1967/ERC1967Utils.sol";
 
 /**

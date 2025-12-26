@@ -17,15 +17,15 @@ pragma solidity ^0.8.20;
  *
  * [.hljs-theme-light.nopadding]
  * ```solidity
- * contract MyToken is ERC20Upgradeable {
+ * contract MyToken is CBC20Upgradeable {
  *     function initialize() initializer public {
- *         __ERC20_init("MyToken", "MTK");
+ *         __CBC20_init("MyToken", "MTK");
  *     }
  * }
  *
- * contract MyTokenV2 is MyToken, ERC20PermitUpgradeable {
+ * contract MyTokenV2 is MyToken, CBC20PermitUpgradeable {
  *     function initializeV2() reinitializer(2) public {
- *         __ERC20Permit_init("MyToken");
+ *         __CBC20Permit_init("MyToken");
  *     }
  * }
  * ```

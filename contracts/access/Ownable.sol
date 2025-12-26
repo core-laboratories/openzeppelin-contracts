@@ -4,6 +4,8 @@
 pragma solidity ^0.8.20;
 
 import {Context} from "../utils/Context.sol";
+import {Zero} from "../utils/Zero.sol";
+import {ZeroCheck} from "../utils/ZeroCheck.sol";
 
 /**
  * @dev Contract module which provides a basic access control mechanism, where
@@ -36,8 +38,8 @@ abstract contract Ownable is Context {
      * @dev Initializes the contract setting the address provided by the deployer as the initial owner.
      */
     constructor(address initialOwner) {
-        if (initialOwner == address(0)) {
-            revert OwnableInvalidOwner(address(0));
+        if (ZeroCheck.isZero(initialOwner)) {
+            revert OwnableInvalidOwner(initialOwner);
         }
         _transferOwnership(initialOwner);
     }
@@ -74,7 +76,7 @@ abstract contract Ownable is Context {
      * thereby disabling any functionality that is only available to the owner.
      */
     function renounceOwnership() public virtual onlyOwner {
-        _transferOwnership(address(0));
+        _transferOwnership(Zero.Address());
     }
 
     /**
@@ -82,8 +84,8 @@ abstract contract Ownable is Context {
      * Can only be called by the current owner.
      */
     function transferOwnership(address newOwner) public virtual onlyOwner {
-        if (newOwner == address(0)) {
-            revert OwnableInvalidOwner(address(0));
+        if (ZeroCheck.isZero(newOwner)) {
+            revert OwnableInvalidOwner(newOwner);
         }
         _transferOwnership(newOwner);
     }

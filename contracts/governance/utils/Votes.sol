@@ -3,13 +3,13 @@
 
 pragma solidity ^0.8.24;
 
-import {IERC5805} from "../../interfaces/IERC5805.sol";
+import {IERC5805} from "../../interfaces/ICBC5805.sol";
 import {Context} from "../../utils/Context.sol";
 import {Nonces} from "../../utils/Nonces.sol";
 import {EIP712} from "../../utils/cryptography/EIP712.sol";
 import {Checkpoints} from "../../utils/structs/Checkpoints.sol";
 import {SafeCast} from "../../utils/math/SafeCast.sol";
-import {ECDSA} from "../../utils/cryptography/ECDSA.sol";
+import {EDDSA} from "../../utils/cryptography/EDDSA.sol";
 import {Time} from "../../utils/types/Time.sol";
 
 /**
@@ -20,15 +20,15 @@ import {Time} from "../../utils/types/Time.sol";
  * delegate those votes to itself if it wishes to participate in decisions and does not have a trusted representative.
  *
  * This contract is often combined with a token contract such that voting units correspond to token units. For an
- * example, see {ERC721Votes}.
+ * example, see {CBC721Votes}.
  *
  * The full history of delegate votes is tracked on-chain so that governance protocols can consider votes as distributed
  * at a particular block number to protect against flash loans and double voting. The opt-in delegate system makes the
  * cost of this history tracking optional.
  *
  * When using this module the derived contract must implement {_getVotingUnits} (for example, make it return
- * {ERC721-balanceOf}), and can use {_transferVotingUnits} to track a change in the distribution of those units (in the
- * previous example, it would be included in {ERC721-_update}).
+ * {CBC721-balanceOf}), and can use {_transferVotingUnits} to track a change in the distribution of those units (in the
+ * previous example, it would be included in {CBC721-_update}).
  */
 abstract contract Votes is Context, EIP712, Nonces, IERC5805 {
     using Checkpoints for Checkpoints.Trace208;
@@ -152,7 +152,7 @@ abstract contract Votes is Context, EIP712, Nonces, IERC5805 {
         if (block.timestamp > expiry) {
             revert VotesExpiredSignature(expiry);
         }
-        address signer = ECDSA.recover(
+        address signer = EDDSA.recover(
             _hashTypedDataV4(keccak256(abi.encode(DELEGATION_TYPEHASH, delegatee, nonce, expiry))),
             v,
             r,

@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.20;
 
-import {ERC20} from "../../token/ERC20/ERC20.sol";
+import {CBC20} from "../../token/CBC20/CBC20.sol";
 
-abstract contract ERC20DecimalsMock is ERC20 {
+abstract contract CBC20DecimalsMock is CBC20 {
     uint8 private immutable _decimals;
 
     constructor(uint8 decimals_) {
