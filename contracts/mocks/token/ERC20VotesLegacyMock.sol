@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.24;
 
-import {ERC20Permit} from "../../token/ERC20/extensions/ERC20Permit.sol";
+import {CBC20Permit} from "../../token/CBC20/extensions/CBC20Permit.sol";
 import {Math} from "../../utils/math/Math.sol";
 import {IVotes} from "../../governance/utils/IVotes.sol";
 import {SafeCast} from "../../utils/math/SafeCast.sol";
@@ -11,7 +11,7 @@ import {ECDSA} from "../../utils/cryptography/ECDSA.sol";
 /**
  * @dev Copied from the master branch at commit 86de1e8b6c3fa6b4efa4a5435869d2521be0f5f5
  */
-abstract contract ERC20VotesLegacyMock is IVotes, ERC20Permit {
+abstract contract CBC20VotesLegacyMock is IVotes, CBC20Permit {
     struct Checkpoint {
         uint32 fromBlock;
         uint224 votes;
@@ -63,7 +63,7 @@ abstract contract ERC20VotesLegacyMock is IVotes, ERC20Permit {
      * - `blockNumber` must have been already mined
      */
     function getPastVotes(address account, uint256 blockNumber) public view virtual returns (uint256) {
-        require(blockNumber < block.number, "ERC20Votes: block not yet mined");
+        require(blockNumber < block.number, "CBC20Votes: block not yet mined");
         return _checkpointsLookup(_checkpoints[account], blockNumber);
     }
 
@@ -76,7 +76,7 @@ abstract contract ERC20VotesLegacyMock is IVotes, ERC20Permit {
      * - `blockNumber` must have been already mined
      */
     function getPastTotalSupply(uint256 blockNumber) public view virtual returns (uint256) {
-        require(blockNumber < block.number, "ERC20Votes: block not yet mined");
+        require(blockNumber < block.number, "CBC20Votes: block not yet mined");
         return _checkpointsLookup(_totalSupplyCheckpoints, blockNumber);
     }
 
@@ -143,14 +143,14 @@ abstract contract ERC20VotesLegacyMock is IVotes, ERC20Permit {
         bytes32 r,
         bytes32 s
     ) public virtual {
-        require(block.timestamp <= expiry, "ERC20Votes: signature expired");
+        require(block.timestamp <= expiry, "CBC20Votes: signature expired");
         address signer = ECDSA.recover(
             _hashTypedDataV4(keccak256(abi.encode(_DELEGATION_TYPEHASH, delegatee, nonce, expiry))),
             v,
             r,
             s
         );
-        require(nonce == _useNonce(signer), "ERC20Votes: invalid nonce");
+        require(nonce == _useNonce(signer), "CBC20Votes: invalid nonce");
         _delegate(signer, delegatee);
     }
 
@@ -170,7 +170,7 @@ abstract contract ERC20VotesLegacyMock is IVotes, ERC20Permit {
         super._update(from, to, amount);
 
         if (from == address(0)) {
-            require(totalSupply() <= _maxSupply(), "ERC20Votes: total supply risks overflowing votes");
+            require(totalSupply() <= _maxSupply(), "CBC20Votes: total supply risks overflowing votes");
             _writeCheckpoint(_totalSupplyCheckpoints, _add, amount);
         }
 

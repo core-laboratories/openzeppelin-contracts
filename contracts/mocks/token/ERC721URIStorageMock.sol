@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.24;
 
-import {ERC721URIStorage} from "../../token/ERC721/extensions/ERC721URIStorage.sol";
+import {CBC721URIStorage} from "../../token/CBC721/extensions/CBC721URIStorage.sol";
 
-abstract contract ERC721URIStorageMock is ERC721URIStorage {
+abstract contract CBC721URIStorageMock is CBC721URIStorage {
     string private _baseTokenURI;
 
     function _baseURI() internal view virtual override returns (string memory) {

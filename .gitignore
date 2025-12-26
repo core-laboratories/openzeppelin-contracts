@@ -65,3 +65,9 @@ contracts-exposed
 .last_confs
 certora_*
 .zip-output-url.txt
+
+# Locks
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+bun.lockb

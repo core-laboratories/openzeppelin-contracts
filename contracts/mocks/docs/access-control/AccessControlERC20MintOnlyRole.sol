@@ -2,13 +2,13 @@
 pragma solidity ^0.8.20;
 
 import {AccessControl} from "../../../access/AccessControl.sol";
-import {ERC20} from "../../../token/ERC20/ERC20.sol";
+import {CBC20} from "../../../token/CBC20/CBC20.sol";
 
-contract AccessControlERC20Mint is ERC20, AccessControl {
+contract AccessControlCBC20Mint is CBC20, AccessControl {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
 
-    constructor(address minter, address burner) ERC20("MyToken", "TKN") {
+    constructor(address minter, address burner) CBC20("MyToken", "TKN") {
         _grantRole(MINTER_ROLE, minter);
         _grantRole(BURNER_ROLE, burner);
     }

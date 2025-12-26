@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.20;
 
-import {IERC1363Receiver} from "../../interfaces/IERC1363Receiver.sol";
+import {IERC1363Receiver} from "../../interfaces/ICBC1363Receiver.sol";
 
 contract ERC1363ReceiverMock is IERC1363Receiver {
     enum RevertType {

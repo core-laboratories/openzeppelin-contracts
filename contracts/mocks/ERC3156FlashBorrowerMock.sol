@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.20;
 
-import {IERC20} from "../token/ERC20/IERC20.sol";
-import {IERC3156FlashBorrower} from "../interfaces/IERC3156.sol";
+import {ICBC20} from "../token/CBC20/ICBC20.sol";
+import {IERC3156FlashBorrower} from "../interfaces/ICBC3156.sol";
 import {Address} from "../utils/Address.sol";
 
 /**
@@ -36,8 +36,8 @@ contract ERC3156FlashBorrowerMock is IERC3156FlashBorrower {
     ) public returns (bytes32) {
         require(msg.sender == token);
 
-        emit BalanceOf(token, address(this), IERC20(token).balanceOf(address(this)));
-        emit TotalSupply(token, IERC20(token).totalSupply());
+        emit BalanceOf(token, address(this), ICBC20(token).balanceOf(address(this)));
+        emit TotalSupply(token, ICBC20(token).totalSupply());
 
         if (data.length > 0) {
             // WARNING: This code is for testing purposes only! Do not use.
@@ -45,7 +45,7 @@ contract ERC3156FlashBorrowerMock is IERC3156FlashBorrower {
         }
 
         if (_enableApprove) {
-            IERC20(token).approve(token, amount + fee);
+            ICBC20(token).approve(token, amount + fee);
         }
 
         return _enableReturn ? _RETURN_VALUE : bytes32(0);
