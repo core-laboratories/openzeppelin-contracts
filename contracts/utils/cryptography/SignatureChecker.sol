@@ -4,8 +4,8 @@
 pragma solidity ^0.8.24;
 
 import {ECDSA} from "./ECDSA.sol";
-import {IERC1271} from "../../interfaces/ICBC1271.sol";
-import {IERC7913SignatureVerifier} from "../../interfaces/ICBC7913.sol";
+import {IERC1271} from "../../interfaces/IERC1271.sol";
+import {IERC7913SignatureVerifier} from "../../interfaces/IERC7913.sol";
 import {Bytes} from "../Bytes.sol";
 
 /**

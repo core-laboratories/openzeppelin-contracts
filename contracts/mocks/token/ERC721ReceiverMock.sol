@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.20;
 
-import {ICBC721Receiver} from "../../token/CBC721/ICBC721Receiver.sol";
+import {IERC721Receiver} from "../../token/ERC721/IERC721Receiver.sol";
 
-contract CBC721ReceiverMock is ICBC721Receiver {
+contract ERC721ReceiverMock is IERC721Receiver {
     enum RevertType {
         None,
         RevertWithoutMessage,
@@ -24,7 +24,7 @@ contract CBC721ReceiverMock is ICBC721Receiver {
         _error = error;
     }
 
-    function onCBC721Received(
+    function onERC721Received(
         address operator,
         address from,
         uint256 tokenId,
@@ -33,7 +33,7 @@ contract CBC721ReceiverMock is ICBC721Receiver {
         if (_error == RevertType.RevertWithoutMessage) {
             revert();
         } else if (_error == RevertType.RevertWithMessage) {
-            revert("CBC721ReceiverMock: reverting");
+            revert("ERC721ReceiverMock: reverting");
         } else if (_error == RevertType.RevertWithCustomError) {
             revert CustomError(_retval);
         } else if (_error == RevertType.Panic) {

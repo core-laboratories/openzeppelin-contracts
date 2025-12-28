@@ -2,14 +2,14 @@
 
 pragma solidity ^0.8.24;
 
-import {CBC721} from "../../../token/CBC721/CBC721.sol";
+import {ERC721} from "../../../token/ERC721/ERC721.sol";
 import {Strings} from "../../../utils/Strings.sol";
 import {Base64} from "../../../utils/Base64.sol";
 
-contract Base64NFT is CBC721 {
+contract Base64NFT is ERC721 {
     using Strings for uint256;
 
-    constructor() CBC721("Base64NFT", "MTK") {}
+    constructor() ERC721("Base64NFT", "MTK") {}
 
     // ...
 

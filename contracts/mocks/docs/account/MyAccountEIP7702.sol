@@ -3,12 +3,12 @@
 pragma solidity ^0.8.20;
 
 import {Account} from "../../../account/Account.sol";
-import {CBC721Holder} from "../../../token/CBC721/utils/CBC721Holder.sol";
-import {CBC1155Holder} from "../../../token/CBC1155/utils/CBC1155Holder.sol";
+import {ERC721Holder} from "../../../token/ERC721/utils/ERC721Holder.sol";
+import {ERC1155Holder} from "../../../token/ERC1155/utils/ERC1155Holder.sol";
 import {ERC7821} from "../../../account/extensions/draft-ERC7821.sol";
 import {SignerEIP7702} from "../../../utils/cryptography/signers/SignerEIP7702.sol";
 
-contract MyAccountEIP7702 is Account, SignerEIP7702, ERC7821, CBC721Holder, CBC1155Holder {
+contract MyAccountEIP7702 is Account, SignerEIP7702, ERC7821, ERC721Holder, ERC1155Holder {
     /// @dev Allows the entry point as an authorized executor.
     function _erc7821AuthorizedExecutor(
         address caller,

@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.26;
 
-import {IERC7786GatewaySource} from "../interfaces/draft-ICBC7786.sol";
+import {IERC7786GatewaySource} from "../interfaces/draft-IERC7786.sol";
 import {InteroperableAddress} from "../utils/draft-InteroperableAddress.sol";
 import {Bytes} from "../utils/Bytes.sol";
 import {ERC7786Recipient} from "./ERC7786Recipient.sol";
@@ -12,7 +12,7 @@ import {ERC7786Recipient} from "./ERC7786Recipient.sol";
  *
  * This contract contains the logic to register and send messages to counterparts on remote chains using ERC-7786
  * gateways. It ensure received messages originate from a counterpart. This is the base of token bridges such as
- * {BridgeCBC20Core}.
+ * {BridgeERC20Core}.
  *
  * Contracts that inherit from this contract can use the internal {_sendMessageToCounterpart} to send messages to their
  * counterpart on a foreign chain. They must override the {_processMessage} function to handle messages that have

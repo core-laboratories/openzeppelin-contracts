@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.20;
 
-import {CBC20} from "../../token/CBC20/CBC20.sol";
+import {ERC20} from "../../token/ERC20/ERC20.sol";
 
-abstract contract CBC20ReturnFalseMock is CBC20 {
+abstract contract ERC20ReturnFalseMock is ERC20 {
     function transfer(address, uint256) public pure override returns (bool) {
         return false;
     }

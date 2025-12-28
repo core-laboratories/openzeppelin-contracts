@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.20;
 
-import {ICBC20} from "../../token/CBC20/ICBC20.sol";
-import {ERC4626} from "../../token/CBC20/extensions/ERC4626.sol";
-import {SafeCBC20} from "../../token/CBC20/utils/SafeCBC20.sol";
+import {IERC20} from "../../token/ERC20/IERC20.sol";
+import {ERC4626} from "../../token/ERC20/extensions/ERC4626.sol";
+import {SafeERC20} from "../../token/ERC20/utils/SafeERC20.sol";
 import {Math} from "../../utils/math/Math.sol";
 
 /// @dev ERC-4626 vault with entry/exit fees expressed in https://en.wikipedia.org/wiki/Basis_point[basis point (bp)].
@@ -53,7 +53,7 @@ abstract contract ERC4626Fees is ERC4626 {
         super._deposit(caller, receiver, assets, shares);
 
         if (fee > 0 && recipient != address(this)) {
-            SafeCBC20.safeTransfer(ICBC20(asset()), recipient, fee);
+            SafeERC20.safeTransfer(IERC20(asset()), recipient, fee);
         }
     }
 
@@ -71,7 +71,7 @@ abstract contract ERC4626Fees is ERC4626 {
         super._withdraw(caller, receiver, owner, assets, shares);
 
         if (fee > 0 && recipient != address(this)) {
-            SafeCBC20.safeTransfer(ICBC20(asset()), recipient, fee);
+            SafeERC20.safeTransfer(IERC20(asset()), recipient, fee);
         }
     }
 

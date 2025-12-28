@@ -3,11 +3,11 @@
 
 pragma solidity ^0.8.24;
 
-import {ICBC721Receiver} from "../token/CBC721/ICBC721Receiver.sol";
-import {ICBC1155Receiver} from "../token/CBC1155/ICBC1155Receiver.sol";
+import {IERC721Receiver} from "../token/ERC721/IERC721Receiver.sol";
+import {IERC1155Receiver} from "../token/ERC1155/IERC1155Receiver.sol";
 import {EIP712} from "../utils/cryptography/EIP712.sol";
 import {SignatureChecker} from "../utils/cryptography/SignatureChecker.sol";
-import {ICBC165, CBC165} from "../utils/introspection/CBC165.sol";
+import {IERC165, ERC165} from "../utils/introspection/ERC165.sol";
 import {SafeCast} from "../utils/math/SafeCast.sol";
 import {DoubleEndedQueue} from "../utils/structs/DoubleEndedQueue.sol";
 import {Address} from "../utils/Address.sol";
@@ -25,7 +25,7 @@ import {IGovernor, IERC6372} from "./IGovernor.sol";
  * - A voting module must implement {_getVotes}
  * - Additionally, {votingPeriod}, {votingDelay}, and {quorum} must also be implemented
  */
-abstract contract Governor is Context, CBC165, EIP712, Nonces, IGovernor, ICBC721Receiver, ICBC1155Receiver {
+abstract contract Governor is Context, ERC165, EIP712, Nonces, IGovernor, IERC721Receiver, IERC1155Receiver {
     using DoubleEndedQueue for DoubleEndedQueue.Bytes32Deque;
 
     bytes32 public constant BALLOT_TYPEHASH =
@@ -86,12 +86,12 @@ abstract contract Governor is Context, CBC165, EIP712, Nonces, IGovernor, ICBC72
         }
     }
 
-    /// @inheritdoc ICBC165
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ICBC165, CBC165) returns (bool) {
+    /// @inheritdoc IERC165
+    function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165, ERC165) returns (bool) {
         return
             interfaceId == type(IGovernor).interfaceId ||
             interfaceId == type(IGovernor).interfaceId ^ IGovernor.getProposalId.selector ||
-            interfaceId == type(ICBC1155Receiver).interfaceId ||
+            interfaceId == type(IERC1155Receiver).interfaceId ||
             super.supportsInterface(interfaceId);
     }
 
@@ -667,32 +667,32 @@ abstract contract Governor is Context, CBC165, EIP712, Nonces, IGovernor, ICBC72
     }
 
     /**
-     * @dev See {ICBC721Receiver-onCBC721Received}.
+     * @dev See {IERC721Receiver-onERC721Received}.
      * Receiving tokens is disabled if the governance executor is other than the governor itself (eg. when using with a timelock).
      */
-    function onCBC721Received(address, address, uint256, bytes memory) public virtual returns (bytes4) {
+    function onERC721Received(address, address, uint256, bytes memory) public virtual returns (bytes4) {
         if (_executor() != address(this)) {
             revert GovernorDisabledDeposit();
         }
-        return this.onCBC721Received.selector;
+        return this.onERC721Received.selector;
     }
 
     /**
-     * @dev See {ICBC1155Receiver-onCBC1155Received}.
+     * @dev See {IERC1155Receiver-onERC1155Received}.
      * Receiving tokens is disabled if the governance executor is other than the governor itself (eg. when using with a timelock).
      */
-    function onCBC1155Received(address, address, uint256, uint256, bytes memory) public virtual returns (bytes4) {
+    function onERC1155Received(address, address, uint256, uint256, bytes memory) public virtual returns (bytes4) {
         if (_executor() != address(this)) {
             revert GovernorDisabledDeposit();
         }
-        return this.onCBC1155Received.selector;
+        return this.onERC1155Received.selector;
     }
 
     /**
-     * @dev See {ICBC1155Receiver-onCBC1155BatchReceived}.
+     * @dev See {IERC1155Receiver-onERC1155BatchReceived}.
      * Receiving tokens is disabled if the governance executor is other than the governor itself (eg. when using with a timelock).
      */
-    function onCBC1155BatchReceived(
+    function onERC1155BatchReceived(
         address,
         address,
         uint256[] memory,
@@ -702,7 +702,7 @@ abstract contract Governor is Context, CBC165, EIP712, Nonces, IGovernor, ICBC72
         if (_executor() != address(this)) {
             revert GovernorDisabledDeposit();
         }
-        return this.onCBC1155BatchReceived.selector;
+        return this.onERC1155BatchReceived.selector;
     }
 
     /**

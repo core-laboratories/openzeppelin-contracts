@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.20;
 
-import {IERC1363Spender} from "../../interfaces/ICBC1363Spender.sol";
+import {IERC1363Spender} from "../../interfaces/IERC1363Spender.sol";
 
 contract ERC1363SpenderMock is IERC1363Spender {
     enum RevertType {

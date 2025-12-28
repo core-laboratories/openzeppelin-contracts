@@ -9,10 +9,10 @@ import {
     IERC7579Hook,
     IERC7579Module,
     IERC7579Validator
-} from "../../../interfaces/draft-ICBC7579.sol";
+} from "../../../interfaces/draft-IERC7579.sol";
 import {SignatureChecker} from "../../../utils/cryptography/SignatureChecker.sol";
-import {PackedUserOperation} from "../../../interfaces/draft-ICBC4337.sol";
-import {IERC1271} from "../../../interfaces/ICBC1271.sol";
+import {PackedUserOperation} from "../../../interfaces/draft-IERC4337.sol";
+import {IERC1271} from "../../../interfaces/IERC1271.sol";
 import {ERC4337Utils} from "../../../account/utils/draft-ERC4337Utils.sol";
 
 abstract contract ERC7579ModuleMock is IERC7579Module {

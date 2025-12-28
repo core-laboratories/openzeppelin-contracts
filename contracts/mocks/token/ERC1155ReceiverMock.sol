@@ -2,10 +2,10 @@
 
 pragma solidity ^0.8.20;
 
-import {ICBC1155Receiver} from "../../token/CBC1155/ICBC1155Receiver.sol";
-import {CBC165} from "../../utils/introspection/CBC165.sol";
+import {IERC1155Receiver} from "../../token/ERC1155/IERC1155Receiver.sol";
+import {ERC165} from "../../utils/introspection/ERC165.sol";
 
-contract CBC1155ReceiverMock is CBC165, ICBC1155Receiver {
+contract ERC1155ReceiverMock is ERC165, IERC1155Receiver {
     enum RevertType {
         None,
         RevertWithoutMessage,
@@ -28,7 +28,7 @@ contract CBC1155ReceiverMock is CBC165, ICBC1155Receiver {
         _error = error;
     }
 
-    function onCBC1155Received(
+    function onERC1155Received(
         address operator,
         address from,
         uint256 id,
@@ -38,7 +38,7 @@ contract CBC1155ReceiverMock is CBC165, ICBC1155Receiver {
         if (_error == RevertType.RevertWithoutMessage) {
             revert();
         } else if (_error == RevertType.RevertWithMessage) {
-            revert("CBC1155ReceiverMock: reverting on receive");
+            revert("ERC1155ReceiverMock: reverting on receive");
         } else if (_error == RevertType.RevertWithCustomError) {
             revert CustomError(_recRetval);
         } else if (_error == RevertType.Panic) {
@@ -50,7 +50,7 @@ contract CBC1155ReceiverMock is CBC165, ICBC1155Receiver {
         return _recRetval;
     }
 
-    function onCBC1155BatchReceived(
+    function onERC1155BatchReceived(
         address operator,
         address from,
         uint256[] calldata ids,
@@ -60,7 +60,7 @@ contract CBC1155ReceiverMock is CBC165, ICBC1155Receiver {
         if (_error == RevertType.RevertWithoutMessage) {
             revert();
         } else if (_error == RevertType.RevertWithMessage) {
-            revert("CBC1155ReceiverMock: reverting on batch receive");
+            revert("ERC1155ReceiverMock: reverting on batch receive");
         } else if (_error == RevertType.RevertWithCustomError) {
             revert CustomError(_recRetval);
         } else if (_error == RevertType.Panic) {
