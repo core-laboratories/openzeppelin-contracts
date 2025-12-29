@@ -1,6 +1,6 @@
 # CoreZeppelin
 
-CoreZeppelin is OpenZeppelin version for Core Blockchain which is using EDDSA for signature verification in contrast to Ethereum and other EVM-based chains.
+CoreZeppelin is OpenZeppelin version for Core Blockchain which is using EdDSA for signature verification in contrast to Ethereum and other EVM-based chains.
 
 [![Github Release](https://img.shields.io/github/v/tag/OpenZeppelin/openzeppelin-contracts.svg?filter=v*&sort=semver&label=github)](https://github.com/OpenZeppelin/openzeppelin-contracts/releases/latest)
 [![NPM Package](https://img.shields.io/npm/v/@openzeppelin/contracts.svg)](https://www.npmjs.org/package/@openzeppelin/contracts)
