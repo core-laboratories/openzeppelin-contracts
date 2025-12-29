@@ -2,13 +2,13 @@
 pragma solidity ^0.8.20;
 
 import {AccessControl} from "../../../access/AccessControl.sol";
-import {CBC20} from "../../../token/CBC20/CBC20.sol";
+import {ERC20} from "../../../token/ERC20/ERC20.sol";
 
-contract AccessControlCBC20MintMissing is CBC20, AccessControl {
+contract AccessControlERC20MintMissing is ERC20, AccessControl {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
 
-    constructor() CBC20("MyToken", "TKN") {
+    constructor() ERC20("MyToken", "TKN") {
         // Grant the contract deployer the default admin role: it will be able
         // to grant and revoke any roles
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);

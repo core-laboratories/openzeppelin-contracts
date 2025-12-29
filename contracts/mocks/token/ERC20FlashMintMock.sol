@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.20;
 
-import {CBC20FlashMint} from "../../token/CBC20/extensions/CBC20FlashMint.sol";
+import {ERC20FlashMint} from "../../token/ERC20/extensions/ERC20FlashMint.sol";
 
-abstract contract CBC20FlashMintMock is CBC20FlashMint {
+abstract contract ERC20FlashMintMock is ERC20FlashMint {
     uint256 _flashFeeAmount;
     address _flashFeeReceiverAddress;
 

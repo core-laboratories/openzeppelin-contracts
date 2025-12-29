@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {CBC20Votes} from "../../token/CBC20/extensions/CBC20Votes.sol";
+import {ERC20Votes} from "../../token/ERC20/extensions/ERC20Votes.sol";
 import {VotesExtended, Votes} from "../../governance/utils/VotesExtended.sol";
 import {SafeCast} from "../../utils/math/SafeCast.sol";
 
-abstract contract CBC20VotesExtendedMock is CBC20Votes, VotesExtended {
+abstract contract ERC20VotesExtendedMock is ERC20Votes, VotesExtended {
     function _delegate(address account, address delegatee) internal virtual override(Votes, VotesExtended) {
         return super._delegate(account, delegatee);
     }
@@ -19,7 +19,7 @@ abstract contract CBC20VotesExtendedMock is CBC20Votes, VotesExtended {
     }
 }
 
-abstract contract CBC20VotesExtendedTimestampMock is CBC20VotesExtendedMock {
+abstract contract ERC20VotesExtendedTimestampMock is ERC20VotesExtendedMock {
     function clock() public view virtual override returns (uint48) {
         return SafeCast.toUint48(block.timestamp);
     }

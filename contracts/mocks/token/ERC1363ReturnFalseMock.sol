@@ -2,19 +2,19 @@
 
 pragma solidity ^0.8.20;
 
-import {ICBC20, CBC20} from "../../token/CBC20/CBC20.sol";
-import {ERC1363} from "../../token/CBC20/extensions/ERC1363.sol";
+import {IERC20, ERC20} from "../../token/ERC20/ERC20.sol";
+import {ERC1363} from "../../token/ERC20/extensions/ERC1363.sol";
 
-abstract contract ERC1363ReturnFalseOnCBC20Mock is ERC1363 {
-    function transfer(address, uint256) public pure override(ICBC20, CBC20) returns (bool) {
+abstract contract ERC1363ReturnFalseOnERC20Mock is ERC1363 {
+    function transfer(address, uint256) public pure override(IERC20, ERC20) returns (bool) {
         return false;
     }
 
-    function transferFrom(address, address, uint256) public pure override(ICBC20, CBC20) returns (bool) {
+    function transferFrom(address, address, uint256) public pure override(IERC20, ERC20) returns (bool) {
         return false;
     }
 
-    function approve(address, uint256) public pure override(ICBC20, CBC20) returns (bool) {
+    function approve(address, uint256) public pure override(IERC20, ERC20) returns (bool) {
         return false;
     }
 }

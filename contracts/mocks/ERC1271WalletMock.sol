@@ -3,7 +3,7 @@
 pragma solidity ^0.8.20;
 
 import {Ownable} from "../access/Ownable.sol";
-import {IERC1271} from "../interfaces/ICBC1271.sol";
+import {IERC1271} from "../interfaces/IERC1271.sol";
 import {ECDSA} from "../utils/cryptography/ECDSA.sol";
 
 contract ERC1271WalletMock is Ownable, IERC1271 {

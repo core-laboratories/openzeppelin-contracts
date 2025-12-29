@@ -3,8 +3,8 @@
 
 pragma solidity ^0.8.20;
 
-import {ICBC20} from "../token/CBC20/ICBC20.sol";
-import {SafeCBC20} from "../token/CBC20/utils/SafeCBC20.sol";
+import {IERC20} from "../token/ERC20/IERC20.sol";
+import {SafeERC20} from "../token/ERC20/utils/SafeERC20.sol";
 import {Address} from "../utils/Address.sol";
 import {Context} from "../utils/Context.sol";
 import {Ownable} from "../access/Ownable.sol";
@@ -28,14 +28,14 @@ import {Ownable} from "../access/Ownable.sol";
  * NOTE: When using this contract with any token whose balance is adjusted automatically (i.e. a rebase token), make
  * sure to account the supply/balance adjustment in the vesting schedule to ensure the vested amount is as intended.
  *
- * NOTE: Chains with support for native CBC20s may allow the vesting wallet to withdraw the underlying asset as both an
- * CBC20 and as native currency. For example, if chain C supports token A and the wallet gets deposited 100 A, then
- * at 50% of the vesting period, the beneficiary can withdraw 50 A as CBC20 and 25 A as native currency (totaling 75 A).
+ * NOTE: Chains with support for native ERC20s may allow the vesting wallet to withdraw the underlying asset as both an
+ * ERC20 and as native currency. For example, if chain C supports token A and the wallet gets deposited 100 A, then
+ * at 50% of the vesting period, the beneficiary can withdraw 50 A as ERC20 and 25 A as native currency (totaling 75 A).
  * Consider disabling one of the withdrawal methods.
  */
 contract VestingWallet is Context, Ownable {
     event EtherReleased(uint256 amount);
-    event CBC20Released(address indexed token, uint256 amount);
+    event ERC20Released(address indexed token, uint256 amount);
 
     uint256 private _released;
     mapping(address token => uint256) private _erc20Released;
@@ -100,7 +100,7 @@ contract VestingWallet is Context, Ownable {
 
     /**
      * @dev Getter for the amount of releasable `token` tokens. `token` should be the address of an
-     * {ICBC20} contract.
+     * {IERC20} contract.
      */
     function releasable(address token) public view virtual returns (uint256) {
         return vestedAmount(token, uint64(block.timestamp)) - released(token);
@@ -121,13 +121,13 @@ contract VestingWallet is Context, Ownable {
     /**
      * @dev Release the tokens that have already vested.
      *
-     * Emits a {CBC20Released} event.
+     * Emits a {ERC20Released} event.
      */
     function release(address token) public virtual {
         uint256 amount = releasable(token);
         _erc20Released[token] += amount;
-        emit CBC20Released(token, amount);
-        SafeCBC20.safeTransfer(ICBC20(token), owner(), amount);
+        emit ERC20Released(token, amount);
+        SafeERC20.safeTransfer(IERC20(token), owner(), amount);
     }
 
     /**
@@ -141,7 +141,7 @@ contract VestingWallet is Context, Ownable {
      * @dev Calculates the amount of tokens that has already vested. Default implementation is a linear vesting curve.
      */
     function vestedAmount(address token, uint64 timestamp) public view virtual returns (uint256) {
-        return _vestingSchedule(ICBC20(token).balanceOf(address(this)) + released(token), timestamp);
+        return _vestingSchedule(IERC20(token).balanceOf(address(this)) + released(token), timestamp);
     }
 
     /**

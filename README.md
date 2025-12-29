@@ -1,4 +1,6 @@
-# <img src="logo.svg" alt="OpenZeppelin" height="40px">
+# CoreZeppelin
+
+CoreZeppelin is OpenZeppelin version for Core Blockchain which is using EdDSA for signature verification in contrast to Ethereum and other EVM-based chains.
 
 [![Github Release](https://img.shields.io/github/v/tag/OpenZeppelin/openzeppelin-contracts.svg?filter=v*&sort=semver&label=github)](https://github.com/OpenZeppelin/openzeppelin-contracts/releases/latest)
 [![NPM Package](https://img.shields.io/npm/v/@openzeppelin/contracts.svg)](https://www.npmjs.org/package/@openzeppelin/contracts)
@@ -9,9 +11,9 @@
 
 **A library for secure smart contract development.** Build on a solid foundation of community-vetted code.
 
- * Implementations of standards like [ERC20](https://docs.openzeppelin.com/contracts/erc20) and [ERC721](https://docs.openzeppelin.com/contracts/erc721).
- * Flexible [role-based permissioning](https://docs.openzeppelin.com/contracts/access-control) scheme.
- * Reusable [Solidity components](https://docs.openzeppelin.com/contracts/utilities) to build custom contracts and complex decentralized systems.
+* Implementations of standards like [ERC20](https://docs.openzeppelin.com/contracts/erc20) and [ERC721](https://docs.openzeppelin.com/contracts/erc721).
+* Flexible [role-based permissioning](https://docs.openzeppelin.com/contracts/access-control) scheme.
+* Reusable [Solidity components](https://docs.openzeppelin.com/contracts/utilities) to build custom contracts and complex decentralized systems.
 
 :mage: **Not sure how to get started?** Check out [Contracts Wizard](https://wizard.openzeppelin.com/) — an interactive smart contract generator.
 
@@ -34,26 +36,27 @@ We use NPM tags to clearly distinguish between audited and non-audited versions 
 
 #### Hardhat (npm)
 
+```bash
+npm install @corezeppelin/contracts
 ```
-$ npm install @openzeppelin/contracts
-```
+
 → Installs the latest audited release (`latest`).
 
+```bash
+npm install @corezeppelin/contracts@dev
 ```
-$ npm install @openzeppelin/contracts@dev
-```
+
 → Installs the latest unaudited release (`dev`).
 
 #### Foundry (git)
 
 > [!WARNING]
 > When installing via git, it is a common error to use the `master` branch. This is a development branch that should be avoided in favor of tagged releases. The release process involves security measures that the `master` branch does not guarantee.
-
 > [!WARNING]
 > Foundry installs the latest version initially, but subsequent `forge update` commands will use the `master` branch.
 
-```
-$ forge install OpenZeppelin/openzeppelin-contracts
+```bash
+forge install OpenZeppelin/openzeppelin-contracts
 ```
 
 Add `@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/` in `remappings.txt`.
@@ -76,6 +79,156 @@ contract MyCollectible is ERC721 {
 _If you're new to smart contract development, head to [Developing Smart Contracts](https://docs.openzeppelin.com/learn/developing-smart-contracts) to learn about creating a new project and compiling your contracts._
 
 To keep your system secure, you should **always** use the installed code as-is, and neither copy-paste it from online sources nor modify it yourself. The library is designed so that only the contracts and functions you use are deployed, so you don't need to worry about it needlessly increasing gas costs.
+
+## ERC → CBC Aliases
+
+This library provides CBC (Core Blockchain) naming conventions as aliases for ERC standards, allowing you to use CBC naming (CBC20, CBC721, etc.) while maintaining full ERC compatibility.
+
+### Aliases Overview
+
+The alias approach allows you to use CBC naming while leveraging the existing ERC implementations. This provides:
+
+* **Full compatibility** with ERC standards
+* **CBC naming** for Core Blockchain ecosystem
+* **No code duplication** - all functionality inherited
+* **Easy maintenance** - single source of truth
+
+### Approach: Import Aliases with Wrapper Contracts
+
+We use Solidity's import aliasing feature combined with wrapper contracts to create CBC aliases:
+
+```solidity
+// contracts/token/CBC20/CBC20.sol
+pragma solidity ^0.8.20;
+
+import {ERC20 as CBC20Base} from "../ERC20/ERC20.sol";
+import {IERC20 as ICBC20} from "../ERC20/IERC20.sol";
+
+/**
+ * @dev CBC20 is an alias for ERC20, providing Core Blockchain compatibility
+ */
+abstract contract CBC20 is CBC20Base {
+    // All ERC20 functionality is available through inheritance
+    // You can add CBC-specific functionality here if needed
+}
+```
+
+**Key Benefits:**
+
+* ✅ **Simple and clean** - Minimal boilerplate
+* ✅ **No code duplication** - Inherits all functionality
+* ✅ **Maintains full compatibility** - Works with all ERC20 tooling
+* ✅ **Easy to maintain** - Changes to ERC20 automatically propagate
+* ✅ **Type-safe** - Full Solidity type checking
+
+### Development Guide
+
+#### Step 1: Create Interface Aliases
+
+Start with interface aliases - they're the simplest:
+
+```solidity
+// contracts/token/CBC20/ICBC20.sol
+pragma solidity ^0.8.20;
+
+import {IERC20} from "../ERC20/IERC20.sol";
+
+/**
+ * @title ICBC20
+ * @dev Core Blockchain compatible ERC20 interface
+ */
+interface ICBC20 is IERC20 {
+    // All IERC20 functions are inherited
+}
+```
+
+#### Step 2: Create Contract Aliases
+
+Create wrapper contracts that inherit from ERC implementations:
+
+```solidity
+// contracts/token/CBC20/CBC20.sol
+pragma solidity ^0.8.20;
+
+import {ERC20 as _ERC20} from "../ERC20/ERC20.sol";
+import {ICBC20} from "./ICBC20.sol";
+import {IERC20Metadata as ICBC20Metadata} from "../ERC20/extensions/IERC20Metadata.sol";
+
+/**
+ * @title CBC20
+ * @dev Core Blockchain compatible ERC20 token implementation
+ *
+ * This contract is an alias for ERC20, providing the same functionality
+ * under the CBC naming convention for Core Blockchain compatibility.
+ */
+abstract contract CBC20 is _ERC20, ICBC20, ICBC20Metadata {
+    // All functionality inherited from ERC20
+}
+```
+
+#### Step 3: Create Extension Aliases
+
+For extensions, follow the same pattern:
+
+```solidity
+// contracts/token/CBC20/extensions/CBC20Permit.sol
+pragma solidity ^0.8.20;
+
+import {ERC20Permit as _ERC20Permit} from "../../ERC20/extensions/ERC20Permit.sol";
+import {CBC20} from "../CBC20.sol";
+import {ICBC20Permit} from "./ICBC20Permit.sol";
+
+/**
+ * @title CBC20Permit
+ * @dev Core Blockchain compatible ERC20 Permit extension
+ */
+abstract contract CBC20Permit is CBC20, _ERC20Permit, ICBC20Permit {
+    // All ERC20Permit functionality inherited
+}
+```
+
+#### Step 4: Using CBC Aliases in Your Contracts
+
+Once aliases are created, use them in your contracts:
+
+```solidity
+// contracts/MyToken.sol
+pragma solidity ^0.8.20;
+
+import {CBC20} from "./token/CBC20/CBC20.sol";
+import {CBC20Permit} from "./token/CBC20/extensions/CBC20Permit.sol";
+
+contract MyToken is CBC20, CBC20Permit {
+    constructor(
+        string memory name,
+        string memory symbol,
+        uint256 initialSupply
+    ) CBC20(name, symbol) CBC20Permit(name) {
+        _mint(msg.sender, initialSupply);
+    }
+}
+```
+
+### Best Practices
+
+1. **Keep Aliases Minimal** - Aliases should be thin wrappers without unnecessary overrides
+2. **Document the Alias Relationship** - Always document that it's an alias in comments
+3. **Use Consistent Naming** - Contract aliases: `CBC20`, `CBC721`, `CBC1155`; Interface aliases: `ICBC20`, `ICBC721`, `ICBC1155`
+4. **Maintain Import Paths** - Keep ERC implementations as the source of truth
+5. **Handle Extensions Properly** - Extensions should inherit from both the base alias and the extension
+
+### File Structure
+
+```text
+contracts/
+├── token/
+│   ├── ERC20/              # Original ERC20 (keep as-is)
+│   │   ├── ERC20.sol
+│   │   └── IERC20.sol
+│   └── CBC20/              # CBC alias directory
+│       ├── CBC20.sol       # Wrapper contract
+│       └── ICBC20.sol      # Interface wrapper
+```
 
 ## Learn More
 
@@ -119,4 +272,4 @@ OpenZeppelin Contracts is released under the [MIT License](LICENSE).
 
 ## Legal
 
-Your use of this Project is governed by the terms found at www.openzeppelin.com/tos (the "Terms").
+Your use of this Project is governed by the terms found at [www.corezeppelin.com/tos](https://www.corezeppelin.com/tos) (the "Terms").

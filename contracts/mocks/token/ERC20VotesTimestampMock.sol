@@ -2,11 +2,11 @@
 
 pragma solidity ^0.8.24;
 
-import {CBC20Votes} from "../../token/CBC20/extensions/CBC20Votes.sol";
-import {CBC721Votes} from "../../token/CBC721/extensions/CBC721Votes.sol";
+import {ERC20Votes} from "../../token/ERC20/extensions/ERC20Votes.sol";
+import {ERC721Votes} from "../../token/ERC721/extensions/ERC721Votes.sol";
 import {SafeCast} from "../../utils/math/SafeCast.sol";
 
-abstract contract CBC20VotesTimestampMock is CBC20Votes {
+abstract contract ERC20VotesTimestampMock is ERC20Votes {
     function clock() public view virtual override returns (uint48) {
         return SafeCast.toUint48(block.timestamp);
     }
@@ -17,7 +17,7 @@ abstract contract CBC20VotesTimestampMock is CBC20Votes {
     }
 }
 
-abstract contract CBC721VotesTimestampMock is CBC721Votes {
+abstract contract ERC721VotesTimestampMock is ERC721Votes {
     function clock() public view virtual override returns (uint48) {
         return SafeCast.toUint48(block.timestamp);
     }
