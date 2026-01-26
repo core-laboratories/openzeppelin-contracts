@@ -16,7 +16,15 @@ runs:
       run: npm ci
       shell: bash
       if: steps.cache.outputs.cache-hit != 'true'
-    - name: Install Foundry
-      uses: foundry-rs/foundry-toolchain@v1
-      with:
-        version: stable
+    - name: Install Foxar
+      run: |
+        curl -L https://up.foxar.dev/ | bash
+        export PATH="$HOME/.foxar/bin:$PATH"
+        foxarup
+      shell: bash
+    - name: Install ylem
+      run: |
+        curl -L https://github.com/core-coin/ylem/releases/download/1.1.9/ylem-linux-x86_64 -o $HOME/.foxar/bin/ylem
+        chmod +x $HOME/.foxar/bin/ylem
+        ylem --version
+      shell: bash

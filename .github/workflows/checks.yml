@@ -78,8 +78,8 @@ jobs:
         with:
           token: ${{ github.token }}
 
-  tests-foundry:
-    runs-on: ubuntu-latest
+  tests-foxar:
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
         with:
@@ -87,7 +87,7 @@ jobs:
       - name: Set up environment
         uses: ./.github/actions/setup
       - name: Run tests
-        run: forge test -vvv
+        run: spark test -vvv
 
   coverage:
     runs-on: ubuntu-latest

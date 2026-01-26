@@ -56,9 +56,9 @@ contracts-exposed
 /cache
 /artifacts
 
-# Foundry
+# Foxar
 /out
-/cache_forge
+/cache_spark
 
 # Certora
 .certora*
